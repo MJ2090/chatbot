@@ -7,7 +7,6 @@ import pandas as pd
 import tiktoken
 import openai
 import numpy as np
-import embedding.openai.crawl as crawl
 
 # Define root domain to crawl
 domain = "www.donefirst.com"
