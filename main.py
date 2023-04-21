@@ -55,11 +55,14 @@ def embedding_training(text):
     random_str = ''.join(secrets.choice(
         string.ascii_uppercase + string.digits) for i in range(10))
 
-    file_path = relative_path + random_str + '.csv'
     if not os.path.exists(relative_path):
         os.mkdir(relative_path)
+    file_path = os.path.join(relative_path, random_str, '.csv')
 
     my_df.to_csv(file_path)
+    print("========================== SUCCESS ==========================")
+    print(f"Your newly trained embedding CSV is available at {file_path}")
+    print("========================== SUCCESS ==========================")
     return random_str
 
 
