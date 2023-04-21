@@ -83,9 +83,8 @@ def embedding_action(question, model):
     return response
 
 
-def sendchat_home(request):
+def handle_chat(request):
     new_message = request.POST['message']
-    use_embedding = request.POST.get('use_embedding')
     use_embedding = True
     use_gpt = True
     use_action = True
@@ -132,3 +131,16 @@ def sendchat_home(request):
 
 def wrap(response):
     return response
+
+    
+def run_test():
+    history_msg = """
+    [{"role":"user","content":"Hello! How can I assist you today?"},{"role":"assistant","content":"i feel happy today"},{"role":"user","content":"That's great to hear! Is there anything specific that made you feel happy today?"}]
+    """
+    post_data = {'message': 'how are you?', 'history': history_msg}
+    request = {}
+    request['POST'] = post_data
+
+
+if __name__ == "__main__":
+    run_test()
