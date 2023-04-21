@@ -83,8 +83,8 @@ def embedding_action(question, model):
     return response
 
 
-def handle_chat(request):
-    new_message = request.POST['message']
+def handle_chat(request_post_data):
+    new_message = request_post_data['message']
     use_embedding = True
     use_gpt = True
     use_action = True
@@ -116,7 +116,7 @@ def handle_chat(request):
     {"role": "assistant", "content": "OK I got it, I am an assistant on the donefirst.com, I help users by answering their questions."}]
     """
     messages = json.loads(predefined_history)
-    history = request.POST.get('history')
+    history = request_post_data.get('history')
     my_json = json.loads(history)
     messages.extend(my_json)
     messages.append({"role": "user", "content": new_message})
@@ -137,10 +137,8 @@ def run_test():
     history_msg = """
     [{"role":"user","content":"Hello! How can I assist you today?"},{"role":"assistant","content":"i feel happy today"},{"role":"user","content":"That's great to hear! Is there anything specific that made you feel happy today?"}]
     """
-    post_data = {'message': 'why sky is blue?', 'history': history_msg}
-    request = {}
-    request['POST'] = post_data
-    x = handle_chat(request)
+    request_post_data = {'message': 'why sky is blue?', 'history': history_msg}
+    x = handle_chat(request_post_data)
     print(x)
 
 
