@@ -7,8 +7,21 @@ import pandas as pd
 import os
 import numpy as np
 import openai
+import json
+import openai
+
 
 relative_path = '~/embedding/data/'
+
+
+def complete_chat(messages, model):
+    response = openai.ChatCompletion.create(
+        model=model,
+        temperature=0.4,
+        max_tokens=3000,
+        messages=messages,
+    )
+    return response
 
 
 def run_it_3(my_text, qs):
@@ -34,6 +47,23 @@ def embedding_question(question, random_str):
     return ans
 
 
+def embedding_training(text):
+    my_texts = [("embedding", text)]
+    my_df = df.get_df(my_texts)
+    my_df.head()
+    random_str = ''.join(secrets.choice(
+        string.ascii_uppercase + string.digits) for i in range(10))
+
+    file_path = relative_path + random_str + '.csv'
+    if not os.path.exists(relative_path):
+        os.mkdir(relative_path)
+
+    my_df.to_csv(file_path)
+
+    my_df = pd.read_csv(file_path, index_col=0)
+    return random_str
+
+
 def embedding_action(question, model):
     msg = """
     A and B are talking with each other, if A says "{}", is it logically correct for B to reply as 
@@ -51,23 +81,6 @@ def embedding_action(question, model):
     )
 
     return response
-
-
-def embedding_training(text):
-    my_texts = [("embedding", text)]
-    my_df = df.get_df(my_texts)
-    my_df.head()
-    random_str = ''.join(secrets.choice(
-        string.ascii_uppercase + string.digits) for i in range(10))
-
-    file_path = relative_path + random_str + '.csv'
-    if not os.path.exists(relative_path):
-        os.mkdir(relative_path)
-
-    my_df.to_csv(file_path)
-
-    my_df = pd.read_csv(file_path, index_col=0)
-    return random_str
 
 
 def sendchat_home(request):
@@ -89,19 +102,21 @@ def sendchat_home(request):
         action_score = action_score.replace('.', '').replace('\n', '').replace(' ', '')
         print('action_score= ', action_score, action_score.isnumeric())
         if action_score.isnumeric() and int(action_score) >= 80:
-            print('inside')
             answer = "You can do a free self assessment by clicking the link below."
             return_dict['action_message'] = answer
             return_dict['ai_action'] = 1
         
     if len(return_dict) > 0:
-        return HttpResponse(json.dumps(return_dict))
+        return wrap(json.dumps(return_dict))
     
     if not use_gpt:
-        return HttpResponse(json.dumps({'ai_message': 'Sorry, but I cannot help you with that.'}))
+        return wrap(json.dumps({'ai_message': 'Sorry, but I cannot help you with that.'}))
 
-    my_m = PromptModel.objects.get(name='Done FAQ')
-    messages = json.loads(my_m.history)
+    predefined_history = """
+    [{"role": "system", "content": "You are a virtual assistant for donefirst.com. You help users."}, 
+    {"role": "assistant", "content": "OK I got it, I am an assistant on the donefirst.com, I help users by answering their questions."}]
+    """
+    messages = json.loads(predefined_history)
     history = request.POST.get('history')
     my_json = json.loads(history)
     messages.extend(my_json)
@@ -109,7 +124,11 @@ def sendchat_home(request):
 
     print("Msg sent to openai: ", messages)
 
-    openai_response = run_it_chat(messages, model='gpt-3.5-turbo')
+    openai_response = complete_chat(messages, model='gpt-3.5-turbo')
     ai_message = openai_response["choices"][0]["message"]["content"]
 
-    return HttpResponse(json.dumps({'ai_message': ai_message}))
+    return wrap(json.dumps({'ai_message': ai_message}))
+
+
+def wrap(response):
+    return response
