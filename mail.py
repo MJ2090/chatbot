@@ -92,7 +92,7 @@ def sendchat_home(request):
     return_dict = {}
 
     if use_embedding:
-        answer = embedding_question(new_message, 'NX32LBMJ3E')
+        answer = embedding_question(new_message, '~/chatbot/done_embedding.csv')
         if not answer == "I don't know.":
             return_dict['ai_message'] = answer
             # return HttpResponse(json.dumps({'ai_message': answer}))
