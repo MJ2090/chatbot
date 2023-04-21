@@ -11,7 +11,7 @@ import json
 import openai
 
 
-relative_path = '~/chatbot/'
+relative_path = '/home/minjun/chatbot/'
 
 
 def complete_chat(messages, model):
