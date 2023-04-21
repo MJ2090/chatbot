@@ -10,6 +10,7 @@ import openai
 
 relative_path = '~/embedding/data/'
 
+
 def run_it_3(my_text, qs):
     my_texts = [("embedding", my_text)]
     my_df = df.get_df(my_texts)
