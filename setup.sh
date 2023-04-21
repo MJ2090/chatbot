@@ -9,3 +9,5 @@ pip install scipy
 pip install numpy
 pip install tiktoken
 pip install django
+
+echo 'Setup Done...'
