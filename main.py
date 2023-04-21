@@ -24,19 +24,6 @@ def complete_chat(messages, model):
     return response
 
 
-def run_it_3(my_text, qs):
-    my_texts = [("embedding", my_text)]
-    my_df = df.get_df(my_texts)
-    my_df['embeddings'] = my_df['embeddings'].apply(eval).apply(np.array)
-    ans = []
-    for q in qs:
-        tmp = {"Question": q, "Answer": robot.answer_question(
-            my_df, question=q)}
-        ans.append(tmp)
-
-    return ans
-
-
 def embedding_question(question, random_str):
     file_path = relative_path + random_str
     if not os.path.exists(file_path):
@@ -48,7 +35,11 @@ def embedding_question(question, random_str):
     return ans
 
 
-def embedding_training(text):
+def embedding_training(training_file_path = '', text = ''):
+    if os.path.exists(training_file_path):
+        f = open(training_file_path, 'r')
+        text = r.read()
+        f.close()
     my_texts = [("embedding", text)]
     my_df = df.get_df(my_texts)
     my_df.head()
@@ -134,8 +125,11 @@ def handle_chat(request_post_data):
 def wrap(response):
     return response
 
-    
-def run_test(new_msg):
+
+def run_test_chat():
+    new_msg = input('New msg is: ')
+    if new_msg == '':
+        new_msg = 'what is done?'
     history_msg = """
     [{"role":"user","content":"Hello! How can I assist you today?"},{"role":"assistant","content":"i feel happy today"},{"role":"user","content":"That's great to hear! Is there anything specific that made you feel happy today?"}]
     """
@@ -144,8 +138,10 @@ def run_test(new_msg):
     print(x)
 
 
+def run_test_training():
+    embedding_training(training_file_path='~/chatbot/faq.txt')
+
+
 if __name__ == "__main__":
-    new_msg = input('New msg is: ')
-    if new_msg == '':
-        new_msg = 'what is done?'
-    run_test(new_msg)
+    run_test_chat()
+    run_test_training()
