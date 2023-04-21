@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from src.main import handle_chat
+from main import handle_chat
 
 
 def home(request):
