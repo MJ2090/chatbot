@@ -11,21 +11,21 @@ import json
 import openai
 
 
-relative_path = '/home/minjun/chatbot/'
+relative_path = '/home/minjun/chatbot/data'
 
 
 def complete_chat(messages, model):
     response = openai.ChatCompletion.create(
         model=model,
-        temperature=0.4,
+        temperature=0.5,
         max_tokens=3000,
         messages=messages,
     )
     return response
 
 
-def embedding_question(question, random_str):
-    file_path = relative_path + random_str
+def embedding_question(question):
+    file_path = os.path.join(relative_path, 'done_embedding.csv')
     if not os.path.exists(file_path):
         print('path not exist: ', file_path)
         return "I don't know."
@@ -36,14 +36,15 @@ def embedding_question(question, random_str):
 
 
 def embedding_training(training_file_path = '', text = ''):
+    training_file_path = os.path.join(relative_path, training_file_path)
     if os.path.exists(training_file_path):
         f = open(training_file_path, 'r')
         text = f.read()
         f.close()
 
     my_texts = [("embedding", text)]
-    embedding_file_path = os.path.join(relative_path, 'data/done_embeddings.csv')
-    df.get_df(my_texts, embedding_file_path)
+    embedding_file_path = os.path.join(relative_path, 'done_embeddings.csv')
+    df.generate_df(my_texts, embedding_file_path)
 
     print("========================== SUCCESS ==========================")
     print(f"Your newly trained embedding CSV is available at {embedding_file_path}")
@@ -77,7 +78,7 @@ def handle_chat(request_post_data):
     return_dict = {}
 
     if use_embedding:
-        answer = embedding_question(new_message, 'data/done_embedding.csv')
+        answer = embedding_question(new_message)
         if not answer == "I don't know.":
             return_dict['ai_message'] = answer
             # return HttpResponse(json.dumps({'ai_message': answer}))
@@ -132,7 +133,7 @@ def run_test_chat():
 
 
 def run_test_training():
-    embedding_training(training_file_path='~/chatbot/faq.txt')
+    embedding_training(training_file_path='faq.txt')
 
 
 if __name__ == "__main__":

@@ -121,6 +121,6 @@ def generate_embedding_csv(embedding_file_path):
     return df
 
 
-def get_df(my_texts=None, embedding_file_path=''):
+def generate_df(my_texts=None, embedding_file_path=''):
     generate_scraped_csv(my_texts)
     return generate_embedding_csv(embedding_file_path)
