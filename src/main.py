@@ -38,23 +38,16 @@ def embedding_question(question, random_str):
 def embedding_training(training_file_path = '', text = ''):
     if os.path.exists(training_file_path):
         f = open(training_file_path, 'r')
-        text = r.read()
+        text = f.read()
         f.close()
+
     my_texts = [("embedding", text)]
-    my_df = df.get_df(my_texts)
-    my_df.head()
-    random_str = ''.join(secrets.choice(
-        string.ascii_uppercase + string.digits) for i in range(10))
+    embedding_file_path = os.path.join(relative_path, 'done_embeddings.csv')
+    df.get_df(my_texts, embedding_file_path)
 
-    if not os.path.exists(relative_path):
-        os.mkdir(relative_path)
-    file_path = os.path.join(relative_path, random_str + '.csv')
-
-    my_df.to_csv(file_path)
     print("========================== SUCCESS ==========================")
-    print(f"Your newly trained embedding CSV is available at {file_path}")
+    print(f"Your newly trained embedding CSV is available at {embedding_file_path}")
     print("========================== SUCCESS ==========================")
-    return random_str
 
 
 def embedding_action(question, model):
@@ -84,7 +77,7 @@ def handle_chat(request_post_data):
     return_dict = {}
 
     if use_embedding:
-        answer = embedding_question(new_message, 'data/done_embeddings.csv')
+        answer = embedding_question(new_message, 'done_embedding.csv')
         if not answer == "I don't know.":
             return_dict['ai_message'] = answer
             # return HttpResponse(json.dumps({'ai_message': answer}))

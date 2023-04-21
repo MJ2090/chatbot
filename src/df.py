@@ -29,7 +29,7 @@ def generate_scraped_csv(my_texts=None):
 
     # Set the text column to be the raw text with the newlines removed
     df['text'] = df.fname + ". " + remove_newlines(df.text)
-    df.to_csv('done_scraped.csv')
+    df.to_csv('data/done_scraped.csv')
     df.head()
 
 
@@ -69,7 +69,7 @@ def split_into_many(text, tokenizer, max_tokens=max_tokens):
     return chunks
 
 
-def generate_embedding_csv():
+def generate_embedding_csv(embedding_file_path):
     def myf(x):
         if pd.isna(x):
             return 0
@@ -79,7 +79,7 @@ def generate_embedding_csv():
     # Load the cl100k_base tokenizer which is designed to work with the ada-002 model
     tokenizer = tiktoken.get_encoding("cl100k_base")
 
-    df = pd.read_csv('done_scraped.csv', index_col=0)
+    df = pd.read_csv('data/done_scraped.csv', index_col=0)
     df.text.replace(np.nan, "")
     df.dropna()
     df.columns = ['title', 'text']
@@ -115,15 +115,12 @@ def generate_embedding_csv():
 
     df['embeddings'] = df.text.apply(
         lambda x: openai.Embedding.create(input=x, engine='text-embedding-ada-002')['data'][0]['embedding'])
-    df.to_csv('done_embeddings.csv')
-    df.head()
-
-    df = pd.read_csv('done_embeddings.csv', index_col=0)
+    df.to_csv(embedding_file_path)
     df.head()
 
     return df
 
 
-def get_df(my_texts=None):
+def get_df(my_texts=None, embedding_file_path=''):
     generate_scraped_csv(my_texts)
-    return generate_embedding_csv()
+    return generate_embedding_csv(embedding_file_path)
