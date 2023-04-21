@@ -13,7 +13,7 @@ import os
 
 
 relative_path = '~/chatbot/data'
-print os.getcwd()
+print(os.getcwd())
 
 
 def complete_chat(messages, model):
