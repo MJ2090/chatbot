@@ -42,7 +42,7 @@ def embedding_training(training_file_path = '', text = ''):
         f.close()
 
     my_texts = [("embedding", text)]
-    embedding_file_path = os.path.join(relative_path, 'done_embeddings.csv')
+    embedding_file_path = os.path.join(relative_path, 'data/done_embeddings.csv')
     df.get_df(my_texts, embedding_file_path)
 
     print("========================== SUCCESS ==========================")
@@ -77,7 +77,7 @@ def handle_chat(request_post_data):
     return_dict = {}
 
     if use_embedding:
-        answer = embedding_question(new_message, 'done_embedding.csv')
+        answer = embedding_question(new_message, 'data/done_embedding.csv')
         if not answer == "I don't know.":
             return_dict['ai_message'] = answer
             # return HttpResponse(json.dumps({'ai_message': answer}))
