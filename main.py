@@ -38,7 +38,7 @@ def run_it_3(my_text, qs):
 
 
 def embedding_question(question, random_str):
-    file_path = relative_path + random_str + '.csv'
+    file_path = relative_path + random_str
     if not os.path.exists(file_path):
         print('path not exist: ', file_path)
         return "I don't know."
