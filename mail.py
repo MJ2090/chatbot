@@ -18,7 +18,6 @@ def run_it_3(my_text, qs):
     for q in qs:
         tmp = {"Question": q, "Answer": robot.answer_question(
             my_df, question=q)}
-        print('originalllllll', my_df, q)
         ans.append(tmp)
 
     return ans
@@ -111,6 +110,5 @@ def sendchat_home(request):
 
     openai_response = run_it_chat(messages, model='gpt-3.5-turbo')
     ai_message = openai_response["choices"][0]["message"]["content"]
-    record_consumption(request, sc.MODEL_TYPES_CHAT, openai_response)
 
     return HttpResponse(json.dumps({'ai_message': ai_message}))
