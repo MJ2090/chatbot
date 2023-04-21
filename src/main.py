@@ -9,11 +9,9 @@ import numpy as np
 import openai
 import json
 import openai
-import os
 
 
-relative_path = '~/chatbot/data'
-print(os.getcwd())
+relative_path = '/home/minjun/chatbot/data'
 
 
 def complete_chat(messages, model):
