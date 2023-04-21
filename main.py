@@ -11,7 +11,7 @@ import json
 import openai
 
 
-relative_path = '~/chatbot'
+relative_path = '~/chatbot/'
 
 
 def complete_chat(messages, model):
@@ -40,6 +40,7 @@ def run_it_3(my_text, qs):
 def embedding_question(question, random_str):
     file_path = relative_path + random_str + '.csv'
     if not os.path.exists(file_path):
+        print('path not exist: ', file_path)
         return "I don't know."
     my_df = pd.read_csv(file_path, index_col=0)
     my_df['embeddings'] = my_df['embeddings'].apply(eval).apply(np.array)
@@ -91,7 +92,7 @@ def handle_chat(request_post_data):
     return_dict = {}
 
     if use_embedding:
-        answer = embedding_question(new_message, '~/chatbot/done_embedding.csv')
+        answer = embedding_question(new_message, 'done_embedding.csv')
         if not answer == "I don't know.":
             return_dict['ai_message'] = answer
             # return HttpResponse(json.dumps({'ai_message': answer}))
