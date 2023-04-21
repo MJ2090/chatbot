@@ -4,8 +4,6 @@ import tiktoken
 import openai
 import numpy as np
 
-# Define root domain to crawl
-domain = "www.donefirst.com"
 max_tokens = 500
 
 
