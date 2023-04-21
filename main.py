@@ -60,8 +60,6 @@ def embedding_training(text):
         os.mkdir(relative_path)
 
     my_df.to_csv(file_path)
-
-    my_df = pd.read_csv(file_path, index_col=0)
     return random_str
 
 
