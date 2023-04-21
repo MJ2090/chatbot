@@ -48,7 +48,7 @@ def embedding_training(training_file_path = '', text = ''):
 
     if not os.path.exists(relative_path):
         os.mkdir(relative_path)
-    file_path = os.path.join(relative_path, random_str, '.csv')
+    file_path = os.path.join(relative_path, random_str + '.csv')
 
     my_df.to_csv(file_path)
     print("========================== SUCCESS ==========================")
