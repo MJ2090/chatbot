@@ -32,10 +32,11 @@ def create_context(question, df, max_len=1800):
     # Return the context
     return "\n\n###\n\n".join(returns)
 
+
 def answer_question(
         df,
         model="text-davinci-003",
-        question="Am I allowed to publish model outputs to Twitter, without a human review?",
+        question="What is Done?",
         max_len=3600,
         debug=False,
         max_tokens=150,
