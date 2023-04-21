@@ -137,9 +137,11 @@ def run_test():
     history_msg = """
     [{"role":"user","content":"Hello! How can I assist you today?"},{"role":"assistant","content":"i feel happy today"},{"role":"user","content":"That's great to hear! Is there anything specific that made you feel happy today?"}]
     """
-    post_data = {'message': 'how are you?', 'history': history_msg}
+    post_data = {'message': 'why sky is blue?', 'history': history_msg}
     request = {}
     request['POST'] = post_data
+    x = handle_chat(request)
+    print(x)
 
 
 if __name__ == "__main__":
