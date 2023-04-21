@@ -15,3 +15,6 @@ runt the handle_chat function in main.py
 
 # Design Doc:
 https://docs.google.com/document/d/11SL-OnSBckfBvf4MjyUOPLEMFVpAbDLLqb20cWLwmW4/edit#
+
+# Question?
+zhuminjun01@gmail.com
