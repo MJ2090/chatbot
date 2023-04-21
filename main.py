@@ -133,14 +133,15 @@ def wrap(response):
     return response
 
     
-def run_test():
+def run_test(new_msg):
     history_msg = """
     [{"role":"user","content":"Hello! How can I assist you today?"},{"role":"assistant","content":"i feel happy today"},{"role":"user","content":"That's great to hear! Is there anything specific that made you feel happy today?"}]
     """
-    request_post_data = {'message': 'why sky is blue?', 'history': history_msg}
+    request_post_data = {'message': new_msg, 'history': history_msg}
     x = handle_chat(request_post_data)
     print(x)
 
 
 if __name__ == "__main__":
-    run_test()
+    new_msg = input('New msg is: ')
+    run_test(new_msg)
