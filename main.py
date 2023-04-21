@@ -11,7 +11,7 @@ import json
 import openai
 
 
-relative_path = '~/embedding/data/'
+relative_path = '~/chatbot'
 
 
 def complete_chat(messages, model):
