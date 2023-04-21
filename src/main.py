@@ -25,7 +25,7 @@ def complete_chat(messages, model):
 
 
 def embedding_question(question):
-    file_path = os.path.join(relative_path, 'done_embedding.csv')
+    file_path = os.path.join(relative_path, 'done_embeddings.csv')
     if not os.path.exists(file_path):
         print('path not exist: ', file_path)
         return "I don't know."
