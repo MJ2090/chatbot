@@ -145,4 +145,6 @@ def run_test(new_msg):
 
 if __name__ == "__main__":
     new_msg = input('New msg is: ')
+    if new_msg == '':
+        new_msg = 'what is done?'
     run_test(new_msg)
