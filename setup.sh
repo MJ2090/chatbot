@@ -9,5 +9,6 @@ pip install scipy
 pip install numpy
 pip install tiktoken
 pip install django
+pip install 'gunicorn==20.1.*'
 
 echo 'Setup Done...'
