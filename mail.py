@@ -1,6 +1,6 @@
 
-import embedding.openai.df as df
-import embedding.openai.robot as robot
+import df
+import robot
 import secrets
 import string
 import pandas as pd
