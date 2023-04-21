@@ -24,7 +24,7 @@ def run_it_3(my_text, qs):
     return ans
 
 
-def run_it_3_question(question, random_str):
+def embedding_question(question, random_str):
     file_path = relative_path + random_str + '.csv'
     if not os.path.exists(file_path):
         return "I don't know."
@@ -34,7 +34,7 @@ def run_it_3_question(question, random_str):
     return ans
 
 
-def run_it_3_action(question, model):
+def embedding_action(question, model):
     msg = """
     A and B are talking with each other, if A says "{}", is it logically correct for B to reply as 
     "You can take the self assessment on our website"?
@@ -53,7 +53,7 @@ def run_it_3_action(question, model):
     return response
 
 
-def run_it_3_training(text):
+def embedding_training(text):
     my_texts = [("embedding", text)]
     my_df = df.get_df(my_texts)
     my_df.head()
@@ -79,12 +79,12 @@ def sendchat_home(request):
     return_dict = {}
 
     if use_embedding:
-        answer = run_it_3_question(new_message, 'NX32LBMJ3E')
+        answer = embedding_question(new_message, 'NX32LBMJ3E')
         if not answer == "I don't know.":
             return_dict['ai_message'] = answer
             # return HttpResponse(json.dumps({'ai_message': answer}))
     if use_action:
-        openai_response = run_it_3_action(new_message, model='gpt-3.5-turbo')
+        openai_response = embedding_action(new_message, model='gpt-3.5-turbo')
         action_score = openai_response["choices"][0]["message"]["content"]
         action_score = action_score.replace('.', '').replace('\n', '').replace(' ', '')
         print('action_score= ', action_score, action_score.isnumeric())
